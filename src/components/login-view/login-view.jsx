@@ -22,7 +22,7 @@ export function LoginView(props) {
     };
 
     return (
-        <Container>
+        <Container className="content">
             <Row>
                 <Col>
                     <CardGroup>
@@ -53,6 +53,7 @@ export function LoginView(props) {
                                         variant="primary"
                                         type="submit"
                                         onClick={handleSubmit}
+                                        className="mt-3"
                                     >
                                         Submit
                                     </Button>

@@ -21,11 +21,10 @@ export function RegistrationView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password, email, birthday, telephone);
-        props.onRegistration(username);
     };
 
     return (
-        <Container>
+        <Container className="content">
             <Row>
                 <Col>
                     <CardGroup>
@@ -82,6 +81,7 @@ export function RegistrationView(props) {
                                         variant="Primary"
                                         type="submit"
                                         onClick={handleSubmit}
+                                        className="mt-3"
                                     >
                                         Submit
                                     </Button>
@@ -94,6 +94,3 @@ export function RegistrationView(props) {
         </Container>
     );
 }
-RegistrationView.propTypes = {
-    onRegistration: PropTypes.func.isRequired,
-};

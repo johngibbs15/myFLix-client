@@ -1,1 +1,0 @@
-{"mappings":"AAEA,SACI,aCDJ","sources":["src/index.scss","%3Cinput%20css%20HPa_bW%3E"],"sourcesContent":["$color: steelBlue;\n\n.my-flix {\n    color: $color;\n}\n",".my-flix {\n  color: steelBlue;\n}\n/*# sourceMappingURL=index.54149f6b.css.map */\n"],"names":[],"version":3,"file":"index.54149f6b.css.map"}

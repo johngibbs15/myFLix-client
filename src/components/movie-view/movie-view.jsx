@@ -1,33 +1,50 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router';
 
-export class MovieView extends React.Component {
-    render() {
-        const { movieDetails, onBackClick } = this.props;
+import {
+    Stack,
+    Form,
+    Button,
+    Card,
+    CardGroup,
+    Container,
+    Col,
+    Row,
+} from 'react-bootstrap';
 
-        return (
-            <div className="movie-view">
-                <div className="movie-poster">
-                    <img
-                        crossOrigin="anonymous | use-credentials"
-                        src={movieDetails.ImagePath}
-                    />
-                </div>
-                <div className="movie-title">
-                    <span className="label">Title: </span>
-                    <span className="value">{movieDetails.Title}</span>
-                </div>
-                <div className="movie-description">
-                    <span className="label">Description: </span>
-                    <span className="value">{movieDetails.Description}</span>
-                </div>
-                <button
-                    onClick={() => {
-                        onBackClick(null);
-                    }}
-                >
-                    Back
-                </button>
-            </div>
-        );
-    }
-}
+import './movie-view.scss';
+
+const MovieView = ({ movies, user }) => {
+    const { movieId } = useParams();
+    const movie = movies.find((m) => m._id === movieId);
+
+    return (
+        <Container className="content">
+            <Row>
+                <Col>
+                    <div>
+                        <img src={movie.ImagePath} className="movie-poster" />
+                    </div>
+                </Col>
+                <Col>
+                    <Card className="p-3 movie-info">
+                        <div className="movie-title">
+                            <h4>Title</h4>
+                            <span className="value">{movie.Title}</span>
+                        </div>
+                        <div className="movie-description mt-4">
+                            <h4 className="label">Description </h4>
+                            <span className="value">{movie.Description}</span>
+                        </div>
+                        <Link to={`/`}>
+                            <button className="back-button mt-4">Back</button>
+                        </Link>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    );
+};
+
+export default MovieView;
