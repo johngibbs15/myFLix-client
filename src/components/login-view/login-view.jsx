@@ -11,7 +11,7 @@ import {
     Row,
 } from 'react-bootstrap';
 
-export function LoginView(props) {
+export function LoginView({ onLoggedIn, username }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 

@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
     const [user, setUser] = useState(null);
+    const [username, setUsername] = useState(null);
 
     useEffect(() => {
         fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {})
@@ -23,11 +24,11 @@ export const MainView = () => {
     }, []);
 
     useEffect(() => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/users', {})
+        fetch('https://enigmatic-hamlet-36885.herokuapp.com/users/', {})
             .then((response) => response.json())
             .then((user) => {
-                setUser(user[0]);
-                console.log(user[0]);
+                setUser(user);
+                console.log(user);
             });
     }, []);
 
@@ -65,6 +66,9 @@ export const MainView = () => {
                                     <Col md={5}>
                                         <LoginView
                                             onLoggedIn={(user) => setUser(user)}
+                                            username={(username) =>
+                                                setUsername(username)
+                                            }
                                         />
                                     </Col>
                                 )}
@@ -119,15 +123,18 @@ export const MainView = () => {
                         path="/users/:userID"
                         element={
                             <>
+                                {JSON.stringify(username)}
                                 {!user ? (
                                     <Navigate to="/login" replace />
                                 ) : user.length === 0 ? (
                                     <Col>No such user found!</Col>
-                                ) : (
-                                    <Col>
-                                        <ProfileView user={user} />
-                                    </Col>
-                                )}
+                                ) : // <Col>
+                                //     <ProfileView
+                                //         username={username}
+                                //         user={user}
+                                //     />
+                                // </Col>
+                                null}
                             </>
                         }
                     />
