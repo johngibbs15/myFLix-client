@@ -15,6 +15,10 @@ export const MainView = () => {
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState(null);
 
+    const onLoggedIn = (newSomeState) => {
+        setUsername(newSomeState);
+    };
+
     useEffect(() => {
         fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {})
             .then((response) => response.json())
@@ -24,13 +28,15 @@ export const MainView = () => {
     }, []);
 
     useEffect(() => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/users/', {})
+        //Sophek : So I added this useEffect in order to get the users from the api by username,
+        // The username is gotten from the onLoggedIn function that gets back the username from the LoginView 
+        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${username}`, {})
             .then((response) => response.json())
             .then((user) => {
                 setUser(user);
                 console.log(user);
             });
-    }, []);
+    }, [username]);
 
     return (
         <BrowserRouter>
@@ -65,10 +71,7 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={5}>
                                         <LoginView
-                                            onLoggedIn={(user) => setUser(user)}
-                                            username={(username) =>
-                                                setUsername(username)
-                                            }
+                                            onLoggedIn={onLoggedIn}
                                         />
                                     </Col>
                                 )}
@@ -123,18 +126,18 @@ export const MainView = () => {
                         path="/users/:userID"
                         element={
                             <>
-                                {JSON.stringify(username)}
+
                                 {!user ? (
                                     <Navigate to="/login" replace />
                                 ) : user.length === 0 ? (
                                     <Col>No such user found!</Col>
-                                ) : // <Col>
-                                //     <ProfileView
-                                //         username={username}
-                                //         user={user}
-                                //     />
-                                // </Col>
-                                null}
+                                ) : <Col>
+                                    <ProfileView
+                                        username={username}
+                                        user={user}
+                                    />
+                                </Col>
+                                }
                             </>
                         }
                     />

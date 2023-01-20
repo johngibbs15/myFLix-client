@@ -13,10 +13,7 @@ import {
 } from 'react-bootstrap';
 import './profile-view.scss';
 
-export const ProfileView = ({ movies, user, username }) => {
-    const loggedInUser = user?.filter((user) => user.Username === username);
-
-    console.log(loggedInUser);
+export const ProfileView = ({ movies, user }) => {
     return (
         <Container className="content">
             <Row>

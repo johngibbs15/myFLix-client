@@ -11,14 +11,15 @@ import {
     Row,
 } from 'react-bootstrap';
 
-export function LoginView({ onLoggedIn, username }) {
-    const [username, setUsername] = useState('');
+export function LoginView({ onLoggedIn }) {
+
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(username, password);
-        props.onLoggedIn(username);
+        onLoggedIn(username);
     };
 
     return (
