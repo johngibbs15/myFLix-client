@@ -1,11 +1,31 @@
-.content {
+* {
+    box-sizing: border-box;
+}
+.title {
     margin-top: 50px;
+    text-align: center;
+    color: #fff;
 }
 
-.info {
-    width: 400px;
+.list-container {
+    overflow: scroll;
+    width: 1020px;
+    height: 500px;
+    margin: 50px auto;
+    color: #fff;
+    border-radius: 10px;
 }
 
-.update-info {
-    width: 600px;
+.movie-container {
+    background-color: rgba(255, 255, 255, 0.13);
+    width: 1000px;
+    height: 175px;
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid white;
+    margin-bottom: 10px;
+}
+
+.movie-container:hover {
+    transition: all 3s 1s;
 }

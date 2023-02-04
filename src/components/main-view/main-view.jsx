@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 import { useState, useEffect } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
@@ -9,33 +10,76 @@ import { ProfileView } from '../profile-view/profile-view';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { FavoriteMovies } from '../profile-view/favorite-movies';
+import { Container } from 'react-bootstrap';
 
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
     const [user, setUser] = useState(null);
     const [username, setUsername] = useState(null);
+    const storedToken = localStorage.getItem('token');
+    // const token = useState(storedToken ? storedToken : null);
 
-    const onLoggedIn = (newSomeState) => {
-        setUsername(newSomeState);
-    };
+    // Pass bearer token into each URL header
 
-    useEffect(() => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {})
+    const getMovies = () => {
+        fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {
+            headers: { Authorization: `Bearer ${storedToken}` },
+        })
             .then((response) => response.json())
             .then((movies) => {
                 setMovies(movies);
             });
-    }, []);
+    };
 
-    useEffect(() => {
-        //Sophek : So I added this useEffect in order to get the users from the api by username,
-        // The username is gotten from the onLoggedIn function that gets back the username from the LoginView 
-        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${username}`, {})
+    const getUser = () => {
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}`,
+            {
+                headers: { Authorization: `Bearer ${storedToken}` },
+            }
+        )
             .then((response) => response.json())
             .then((user) => {
                 setUser(user);
                 console.log(user);
             });
+    };
+
+    const addMovie = (movieId) => {
+        axios
+            .post(
+                `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}/movies/${movieId}`,
+                { headers: { Authorization: `Bearer ${storedToken}` } }
+            )
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const deleteMovie = (movieId) => {
+        axios
+            .delete(
+                `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}/movies/${movieId}`,
+                {
+                    headers: { Authorization: `Bearer ${storedToken}` },
+                }
+            )
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getMovies();
+        getUser();
     }, [username]);
 
     return (
@@ -55,7 +99,7 @@ export const MainView = () => {
                                 {user ? (
                                     <Navigate to="/" />
                                 ) : (
-                                    <Col md={5}>
+                                    <Col md={8} lg={5}>
                                         <RegistrationView />
                                     </Col>
                                 )}
@@ -69,9 +113,11 @@ export const MainView = () => {
                                 {user ? (
                                     <Navigate to="/" />
                                 ) : (
-                                    <Col md={5}>
+                                    <Col md={8} lg={5}>
                                         <LoginView
-                                            onLoggedIn={onLoggedIn}
+                                            onLoggedIn={(user) =>
+                                                setUsername(user)
+                                            }
                                         />
                                     </Col>
                                 )}
@@ -89,8 +135,9 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={8}>
                                         <MovieView
-                                            key={movies.id}
+                                            key={movies._id}
                                             movies={movies}
+                                            addMovie={addMovie}
                                         />
                                     </Col>
                                 )}
@@ -109,10 +156,8 @@ export const MainView = () => {
                                     <>
                                         {movies.map((movie) => (
                                             <Col
-                                                className="mb-5"
-                                                key={movie.id}
-                                                sm={5}
-                                                md={3}
+                                                className="mt-3"
+                                                key={movie._id}
                                             >
                                                 <MovieCard movie={movie} />
                                             </Col>
@@ -126,18 +171,42 @@ export const MainView = () => {
                         path="/users/:userID"
                         element={
                             <>
-
                                 {!user ? (
                                     <Navigate to="/login" replace />
                                 ) : user.length === 0 ? (
                                     <Col>No such user found!</Col>
-                                ) : <Col>
-                                    <ProfileView
-                                        username={username}
-                                        user={user}
-                                    />
-                                </Col>
-                                }
+                                ) : (
+                                    <Col>
+                                        <ProfileView
+                                            username={username}
+                                            user={user}
+                                            movies={movies}
+                                            deleteMovie={deleteMovie}
+                                        />
+                                    </Col>
+                                )}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/users/:userID/favorite-movies"
+                        element={
+                            <>
+                                {!user ? (
+                                    <Navigate to="/login" replace />
+                                ) : user.length === 0 ? (
+                                    <Col>No such user found!</Col>
+                                ) : (
+                                    <Col>
+                                        <FavoriteMovies
+                                            username={username}
+                                            user={user}
+                                            movies={movies}
+                                            deleteMovie={deleteMovie}
+                                            getUser={getUser}
+                                        />
+                                    </Col>
+                                )}
                             </>
                         }
                     />
