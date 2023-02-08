@@ -16,16 +16,16 @@ import { Container } from 'react-bootstrap';
 
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
-    const [user, setUser] = useState(null);
-    const [username, setUsername] = useState(null);
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const [user, setUser] = useState(storedUser ? storedUser : null);
     const storedToken = localStorage.getItem('token');
-    // const token = useState(storedToken ? storedToken : null);
+    const [token, setToken] = useState(storedToken ? storedToken : null);
 
     // Pass bearer token into each URL header
 
     const getMovies = () => {
         fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {
-            headers: { Authorization: `Bearer ${storedToken}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => response.json())
             .then((movies) => {
@@ -33,25 +33,22 @@ export const MainView = () => {
             });
     };
 
-    const getUser = () => {
-        fetch(
-            `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}`,
-            {
-                headers: { Authorization: `Bearer ${storedToken}` },
-            }
-        )
-            .then((response) => response.json())
-            .then((user) => {
-                setUser(user);
-                console.log(user);
-            });
-    };
+    // const getUser = () => {
+    //     fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user}`, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //     })
+    //         .then((response) => response.json())
+    //         .then((user) => {
+    //             setUser(user);
+    //             console.log(user);
+    //         });
+    // };
 
     const addMovie = (movieId) => {
         axios
             .post(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}/movies/${movieId}`,
-                { headers: { Authorization: `Bearer ${storedToken}` } }
+                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+                { headers: { Authorization: `Bearer ${token}` } }
             )
             .then((response) => {
                 console.log(response);
@@ -64,9 +61,9 @@ export const MainView = () => {
     const deleteMovie = (movieId) => {
         axios
             .delete(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${username}/movies/${movieId}`,
+                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user}/movies/${movieId}`,
                 {
-                    headers: { Authorization: `Bearer ${storedToken}` },
+                    headers: { Authorization: `Bearer ${token}` },
                 }
             )
             .then((response) => {
@@ -79,8 +76,7 @@ export const MainView = () => {
 
     useEffect(() => {
         getMovies();
-        getUser();
-    }, [username]);
+    }, [user]);
 
     return (
         <BrowserRouter>
@@ -115,9 +111,10 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={8} lg={5}>
                                         <LoginView
-                                            onLoggedIn={(user) =>
-                                                setUsername(user)
-                                            }
+                                            onLoggedIn={(user, token) => {
+                                                setUser(user);
+                                                setToken(token);
+                                            }}
                                         />
                                     </Col>
                                 )}
@@ -178,7 +175,6 @@ export const MainView = () => {
                                 ) : (
                                     <Col>
                                         <ProfileView
-                                            username={username}
                                             user={user}
                                             movies={movies}
                                             deleteMovie={deleteMovie}
@@ -199,11 +195,9 @@ export const MainView = () => {
                                 ) : (
                                     <Col>
                                         <FavoriteMovies
-                                            username={username}
                                             user={user}
                                             movies={movies}
                                             deleteMovie={deleteMovie}
-                                            getUser={getUser}
                                         />
                                     </Col>
                                 )}

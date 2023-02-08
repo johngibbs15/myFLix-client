@@ -30,17 +30,27 @@ export function LoginView({ onLoggedIn }) {
             `https://enigmatic-hamlet-36885.herokuapp.com/login?Username=${username}&Password=${password}`,
             {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
                 body: JSON.stringify(data),
             }
-        ).then((response) => {
-            if (response.ok) {
-                console.log(response);
-                localStorage.setItem('token', data.username);
-                onLoggedIn(username);
-            } else {
-                alert('Login failed');
-            }
-        });
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Login response: ', data);
+                if (data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('token', data.token);
+                    onLoggedIn(data.user, data.token);
+                } else {
+                    alert('No such user');
+                }
+            })
+            .catch((e) => {
+                alert('Something went wrong:' + '' + e);
+            });
     };
 
     return (

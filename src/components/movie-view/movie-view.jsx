@@ -3,16 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 
-import {
-    Stack,
-    Form,
-    Button,
-    Card,
-    CardGroup,
-    Container,
-    Col,
-    Row,
-} from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 
 import './movie-view.scss';
 

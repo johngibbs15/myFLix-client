@@ -15,10 +15,6 @@ import './profile-view.scss';
 export const ProfileView = ({ user, token }) => {
     console.log(user.Username);
 
-    // 1. Work on updateUser bug: 1) Problem - http request is successful. However, data is wiped in database
-    // 2. Ensure deregister function is working as intended.
-    // 3. Persist logged in user \
-
     const [username, setUsername] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
