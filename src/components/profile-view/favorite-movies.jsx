@@ -1,13 +1,34 @@
+import { useEffect, useState } from 'react';
 import { Button, Card, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './profile-view.scss';
 
-export const FavoriteMovies = ({ movies, user, deleteMovie }) => {
-    console.log(user);
+export const FavoriteMovies = ({ movies, user, deleteMovie, token }) => {
+    const [User, setUser] = useState([]);
+    console.log(user.FavoriteMovies);
+    console.log(User.FavoriteMovies);
+
+    const getUser = () => {
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
+            .then((response) => response.json())
+            .then((response) => {
+                setUser(response);
+            });
+    };
+
+    useEffect(() => {
+        getUser();
+    }, []);
 
     let favoriteMovieList = movies.filter((m) =>
         user.FavoriteMovies.includes(m._id)
     );
+    console.log(favoriteMovieList);
 
     return (
         <>

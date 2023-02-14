@@ -1,5 +1,4 @@
 import React from 'react';
-import Axios from 'axios';
 import { useState, useEffect } from 'react';
 import { MovieCard } from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
@@ -33,44 +32,41 @@ export const MainView = () => {
             });
     };
 
-    // const getUser = () => {
-    //     fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user}`, {
-    //         headers: { Authorization: `Bearer ${token}` },
-    //     })
-    //         .then((response) => response.json())
-    //         .then((user) => {
-    //             setUser(user);
-    //             console.log(user);
-    //         });
-    // };
-
     const addMovie = (movieId) => {
-        axios
-            .post(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
-                { headers: { Authorization: `Bearer ${token}` } }
-            )
+        if (!token) return;
+
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
             .then((response) => {
-                console.log(response);
+                alert('Movie has been added to favorites');
+                return response.json(), console.log(response);
             })
             .catch((error) => {
-                console.log(error);
+                alert('Something went wrong' + error);
             });
     };
 
     const deleteMovie = (movieId) => {
-        axios
-            .delete(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user}/movies/${movieId}`,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            )
+        if (!token) return;
+
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
             .then((response) => {
-                console.log(response);
+                alert('Movie has been deleted');
+                return response.json(), console.log(response);
             })
             .catch((error) => {
-                console.log(error);
+                alert('Something went wrong' + error);
             });
     };
 
@@ -195,6 +191,7 @@ export const MainView = () => {
                                 ) : (
                                     <Col>
                                         <FavoriteMovies
+                                            token={token}
                                             user={user}
                                             movies={movies}
                                             deleteMovie={deleteMovie}

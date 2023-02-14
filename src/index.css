@@ -12,9 +12,9 @@
 
 body{
     background:linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    height:100%;
+    height: auto;
     background-size: cover;
-    background-repeat: no-repeat;
+   
 }
 
 

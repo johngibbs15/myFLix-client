@@ -20,14 +20,15 @@ const MovieView = ({ addMovie, movies, user }) => {
                 display: 'flex',
                 flexDirection: 'row',
                 backgroundColor: 'rgba(255, 255, 255, 0.13)',
+                height: 'auto',
             }}
-            className="card-styling h-75 mt-5"
+            className="sizing card-styling mt-5"
         >
             <Card.Img
                 crossOrigin="anonymous"
                 variant="top"
                 src={movie.ImagePath}
-                style={{ width: '20%', height: '200px' }}
+                style={{ width: '20%', height: 'auto' }}
             />
             <Card.Body>
                 <div
@@ -43,8 +44,8 @@ const MovieView = ({ addMovie, movies, user }) => {
                     >
                         {movie.Title}
                     </Card.Title>
-                    <Card.Text className="mb-4">
-                        <h6>
+                    <Card.Text className="mb-2">
+                        <p>
                             {showMore ? text : `${text.substring(0, 50)}`}
                             <a
                                 className="btn"
@@ -52,7 +53,7 @@ const MovieView = ({ addMovie, movies, user }) => {
                             >
                                 {showMore ? 'Show less' : 'Show more'}
                             </a>
-                        </h6>
+                        </p>
                     </Card.Text>
                     <div
                         style={{

@@ -34,11 +34,11 @@ export function RegistrationView(props) {
             })
             .then((response) => {
                 console.log(response.status);
-                alert('Update Successful');
+                alert('Account Created');
             })
             .catch((error) => {
                 console.log(error);
-                alert('Update unsuccessful');
+                alert('Unsuccessful');
             });
     };
 
