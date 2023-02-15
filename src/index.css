@@ -1,0 +1,50 @@
+:root{
+    --primary-color: #131086;
+    --secondary-color: #b621f3;
+    --font: #fff;
+    --body:#3792cb;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+
+body{
+    background:linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    height: auto;
+    background-size: cover;
+   
+}
+
+
+
+.card-styling {
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+}
+
+.card-styling * {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.button-styling{
+width: 100%;
+padding: 12px 32px;
+font-size: 1rem;
+text-transform: uppercase;
+border: 1px solid #fff;
+color: #fff;
+font-weight: 600;
+cursor: pointer;
+background: transparent;
+color: #fff;
+}
+  

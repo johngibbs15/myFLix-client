@@ -9,27 +9,70 @@ import { ProfileView } from '../profile-view/profile-view';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { FavoriteMovies } from '../profile-view/favorite-movies';
+import { Container } from 'react-bootstrap';
 
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
-    const [user, setUser] = useState(null);
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const [user, setUser] = useState(storedUser ? storedUser : null);
+    const storedToken = localStorage.getItem('token');
+    const [token, setToken] = useState(storedToken ? storedToken : null);
 
-    useEffect(() => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {})
+    // Pass bearer token into each URL header
+
+    const getMovies = () => {
+        fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => response.json())
             .then((movies) => {
                 setMovies(movies);
             });
-    }, []);
+    };
+
+    const addMovie = (movieId) => {
+        if (!token) return;
+
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
+            .then((response) => {
+                alert('Movie has been added to favorites');
+                return response.json(), console.log(response);
+            })
+            .catch((error) => {
+                alert('Something went wrong' + error);
+            });
+    };
+
+    const deleteMovie = (movieId) => {
+        if (!token) return;
+
+        fetch(
+            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
+            .then((response) => {
+                alert('Movie has been deleted');
+                return response.json(), console.log(response);
+            })
+            .catch((error) => {
+                alert('Something went wrong' + error);
+            });
+    };
 
     useEffect(() => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/users', {})
-            .then((response) => response.json())
-            .then((user) => {
-                setUser(user[0]);
-                console.log(user[0]);
-            });
-    }, []);
+        getMovies();
+    }, [user]);
 
     return (
         <BrowserRouter>
@@ -48,7 +91,7 @@ export const MainView = () => {
                                 {user ? (
                                     <Navigate to="/" />
                                 ) : (
-                                    <Col md={5}>
+                                    <Col md={8} lg={5}>
                                         <RegistrationView />
                                     </Col>
                                 )}
@@ -62,9 +105,12 @@ export const MainView = () => {
                                 {user ? (
                                     <Navigate to="/" />
                                 ) : (
-                                    <Col md={5}>
+                                    <Col md={8} lg={5}>
                                         <LoginView
-                                            onLoggedIn={(user) => setUser(user)}
+                                            onLoggedIn={(user, token) => {
+                                                setUser(user);
+                                                setToken(token);
+                                            }}
                                         />
                                     </Col>
                                 )}
@@ -82,8 +128,9 @@ export const MainView = () => {
                                 ) : (
                                     <Col md={8}>
                                         <MovieView
-                                            key={movies.id}
+                                            key={movies._id}
                                             movies={movies}
+                                            addMovie={addMovie}
                                         />
                                     </Col>
                                 )}
@@ -102,10 +149,8 @@ export const MainView = () => {
                                     <>
                                         {movies.map((movie) => (
                                             <Col
-                                                className="mb-5"
-                                                key={movie.id}
-                                                sm={5}
-                                                md={3}
+                                                className="mt-3"
+                                                key={movie._id}
                                             >
                                                 <MovieCard movie={movie} />
                                             </Col>
@@ -125,7 +170,32 @@ export const MainView = () => {
                                     <Col>No such user found!</Col>
                                 ) : (
                                     <Col>
-                                        <ProfileView user={user} />
+                                        <ProfileView
+                                            user={user}
+                                            movies={movies}
+                                            deleteMovie={deleteMovie}
+                                        />
+                                    </Col>
+                                )}
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/users/:userID/favorite-movies"
+                        element={
+                            <>
+                                {!user ? (
+                                    <Navigate to="/login" replace />
+                                ) : user.length === 0 ? (
+                                    <Col>No such user found!</Col>
+                                ) : (
+                                    <Col>
+                                        <FavoriteMovies
+                                            token={token}
+                                            user={user}
+                                            movies={movies}
+                                            deleteMovie={deleteMovie}
+                                        />
                                     </Col>
                                 )}
                             </>

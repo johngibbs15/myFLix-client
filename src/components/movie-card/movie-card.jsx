@@ -5,17 +5,41 @@ import { Link } from 'react-router-dom';
 
 export const MovieCard = ({ movie }) => {
     return (
-        <Card className="h-100">
+        <Card
+            style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.13)',
+                height: '350px',
+                width: '190px',
+                overflow: 'hidden',
+            }}
+            className="card-styling "
+        >
             <Card.Img
                 crossOrigin="anonymous"
                 variant="top"
                 src={movie.ImagePath}
+                style={{ height: '250px' }}
             />
             <Card.Body>
-                <Card.Title>{movie.Title}</Card.Title>
-                <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-                    <Button className="button-primary">Open</Button>
-                </Link>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <Card.Title style={{ color: '#fff', fontSize: '1rem' }}>
+                        {movie.Title}
+                    </Card.Title>
+                    <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
+                        <Button
+                            className="mb-4 bg-transparent align-self-end button-styling border border-white text-white"
+                            style={{ width: '50%', fontSize: '0.75rem' }}
+                            variant="bottom"
+                        >
+                            Open
+                        </Button>
+                    </Link>
+                </div>
             </Card.Body>
         </Card>
     );
