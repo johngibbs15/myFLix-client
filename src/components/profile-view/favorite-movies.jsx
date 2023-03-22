@@ -1,34 +1,36 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, Col, Container } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './profile-view.scss';
 
-export const FavoriteMovies = ({ movies, user, deleteMovie, token }) => {
-    const [User, setUser] = useState([]);
-    console.log(user.FavoriteMovies);
-    console.log(User.FavoriteMovies);
+export const FavoriteMovies = ({ movies, user, deleteMovie }) => {
+    const storedToken = localStorage.getItem('token');
+    const [token] = useState(storedToken ? storedToken : null);
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-    const getUser = () => {
+    const getUser = (token) => {
         fetch(
             `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`,
             {
+                method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             }
         )
             .then((response) => response.json())
             .then((response) => {
-                setUser(response);
+                console.log(response);
+                setFavoriteMovies(response.FavoriteMovies);
             });
     };
+    console.log('FavoriteMovies', favoriteMovies);
+
+    const favoriteMovieList = movies.filter((movie) =>
+        favoriteMovies.includes(movie._id)
+    );
 
     useEffect(() => {
-        getUser();
+        getUser(token);
     }, []);
-
-    let favoriteMovieList = movies.filter((m) =>
-        user.FavoriteMovies.includes(m._id)
-    );
-    console.log(favoriteMovieList);
 
     return (
         <>
