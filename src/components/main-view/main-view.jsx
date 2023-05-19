@@ -23,7 +23,7 @@ export const MainView = () => {
     // Pass bearer token into each URL header
 
     const getMovies = () => {
-        fetch('https://enigmatic-hamlet-36885.herokuapp.com/movies', {
+        fetch('https://dry-chamber-05388.herokuapp.com/movies', {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => response.json())
@@ -36,7 +36,7 @@ export const MainView = () => {
         if (!token) return;
 
         fetch(
-            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`,
             {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
@@ -55,7 +55,7 @@ export const MainView = () => {
         if (!token) return;
 
         fetch(
-            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`,
+            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`,
             {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` },

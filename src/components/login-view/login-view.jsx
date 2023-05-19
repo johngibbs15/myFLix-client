@@ -27,7 +27,7 @@ export function LoginView({ onLoggedIn }) {
         };
 
         fetch(
-            `https://enigmatic-hamlet-36885.herokuapp.com/login?Username=${username}&Password=${password}`,
+            `https://dry-chamber-05388.herokuapp.com/login?Username=${username}&Password=${password}`,
             {
                 method: 'POST',
                 headers: {

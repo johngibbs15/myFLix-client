@@ -26,7 +26,7 @@ export function RegistrationView(props) {
     const createUser = (e) => {
         e.preventDefault();
         axios
-            .post(`https://enigmatic-hamlet-36885.herokuapp.com/users`, {
+            .post(`https://dry-chamber-05388.herokuapp.com/users`, {
                 Username: username,
                 Password: password,
                 Email: email,

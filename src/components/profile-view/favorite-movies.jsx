@@ -10,7 +10,7 @@ export const FavoriteMovies = ({ movies, user, deleteMovie }) => {
 
     const getUser = (token) => {
         fetch(
-            `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`,
+            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}`,
             {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },

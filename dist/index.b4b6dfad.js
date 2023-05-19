@@ -26970,7 +26970,7 @@ const MainView = ()=>{
     const [token, setToken] = (0, _react.useState)(storedToken ? storedToken : null);
     // Pass bearer token into each URL header
     const getMovies = ()=>{
-        fetch("https://enigmatic-hamlet-36885.herokuapp.com/movies", {
+        fetch("https://dry-chamber-05388.herokuapp.com/movies", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -26980,7 +26980,7 @@ const MainView = ()=>{
     };
     const addMovie = (movieId)=>{
         if (!token) return;
-        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+        fetch(`https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -26994,7 +26994,7 @@ const MainView = ()=>{
     };
     const deleteMovie = (movieId)=>{
         if (!token) return;
-        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+        fetch(`https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -42705,7 +42705,7 @@ function LoginView({ onLoggedIn  }) {
             access: username,
             secret: password
         };
-        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/login?Username=${username}&Password=${password}`, {
+        fetch(`https://dry-chamber-05388.herokuapp.com/login?Username=${username}&Password=${password}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -42889,7 +42889,7 @@ function RegistrationView(props) {
     // };
     const createUser = (e)=>{
         e.preventDefault();
-        (0, _axiosDefault.default).post(`https://enigmatic-hamlet-36885.herokuapp.com/users`, {
+        (0, _axiosDefault.default).post(`https://dry-chamber-05388.herokuapp.com/users`, {
             Username: username,
             Password: password,
             Email: email,
@@ -47181,7 +47181,7 @@ const ProfileView = ({ user , token  })=>{
     const [birthday, setBirthday] = (0, _react.useState)("");
     const updateUser = (e)=>{
         e.preventDefault();
-        (0, _axiosDefault.default).put(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`, {
+        (0, _axiosDefault.default).put(`https://dry-chamber-05388.herokuapp.com/users/${user.Username}`, {
             Username: username,
             Password: password,
             Email: email,
@@ -47398,7 +47398,7 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
     const [token] = (0, _react.useState)(storedToken ? storedToken : null);
     const [favoriteMovies, setFavoriteMovies] = (0, _react.useState)([]);
     const getUser = (token)=>{
-        fetch(`https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`, {
+        fetch(`https://dry-chamber-05388.herokuapp.com/users/${user.Username}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -47410,7 +47410,6 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
     };
     console.log("FavoriteMovies", favoriteMovies);
     const favoriteMovieList = movies.filter((movie)=>favoriteMovies.includes(movie._id));
-    //Filter favorite movies for later display
     (0, _react.useEffect)(()=>{
         getUser(token);
     }, []);
@@ -47422,12 +47421,12 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                     children: "Favorite Movies List"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/favorite-movies.jsx",
-                    lineNumber: 39,
+                    lineNumber: 38,
                     columnNumber: 17
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/profile-view/favorite-movies.jsx",
-                lineNumber: 38,
+                lineNumber: 37,
                 columnNumber: 13
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -47436,7 +47435,7 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                     children: "You have not added movies to your list yet"
                 }, void 0, false, {
                     fileName: "src/components/profile-view/favorite-movies.jsx",
-                    lineNumber: 43,
+                    lineNumber: 42,
                     columnNumber: 21
                 }, undefined) : favoriteMovieList.map((movie)=>{
                     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -47455,17 +47454,17 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                                         }
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                                        lineNumber: 50,
+                                        lineNumber: 49,
                                         columnNumber: 41
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/components/profile-view/favorite-movies.jsx",
-                                    lineNumber: 49,
+                                    lineNumber: 48,
                                     columnNumber: 37
                                 }, undefined)
                             }, void 0, false, {
                                 fileName: "src/components/profile-view/favorite-movies.jsx",
-                                lineNumber: 48,
+                                lineNumber: 47,
                                 columnNumber: 33
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -47477,14 +47476,14 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                                         children: movie.Title
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                                        lineNumber: 62,
+                                        lineNumber: 61,
                                         columnNumber: 37
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                                         children: movie.Description
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                                        lineNumber: 63,
+                                        lineNumber: 62,
                                         columnNumber: 37
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -47497,12 +47496,12 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                                             children: "Open"
                                         }, void 0, false, {
                                             fileName: "src/components/profile-view/favorite-movies.jsx",
-                                            lineNumber: 65,
+                                            lineNumber: 64,
                                             columnNumber: 41
                                         }, undefined)
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                                        lineNumber: 64,
+                                        lineNumber: 63,
                                         columnNumber: 37
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -47516,25 +47515,25 @@ const FavoriteMovies = ({ movies , user , deleteMovie  })=>{
                                         children: "Remove"
                                     }, void 0, false, {
                                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                                        lineNumber: 72,
+                                        lineNumber: 71,
                                         columnNumber: 37
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/profile-view/favorite-movies.jsx",
-                                lineNumber: 61,
+                                lineNumber: 60,
                                 columnNumber: 33
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/profile-view/favorite-movies.jsx",
-                        lineNumber: 47,
+                        lineNumber: 46,
                         columnNumber: 29
                     }, undefined);
                 })
             }, void 0, false, {
                 fileName: "src/components/profile-view/favorite-movies.jsx",
-                lineNumber: 41,
+                lineNumber: 40,
                 columnNumber: 13
             }, undefined)
         ]

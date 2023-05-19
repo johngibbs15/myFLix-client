@@ -11,7 +11,7 @@
 
 
 body{
-    background:linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background:#131086;
     height: 100%;
     background-size: cover;
    

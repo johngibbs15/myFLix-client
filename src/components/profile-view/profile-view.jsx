@@ -24,7 +24,7 @@ export const ProfileView = ({ user, token }) => {
         e.preventDefault();
         axios
             .put(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`,
+                `https://dry-chamber-05388.herokuapp.com/users/${user.Username}`,
                 {
                     Username: username,
                     Password: password,
