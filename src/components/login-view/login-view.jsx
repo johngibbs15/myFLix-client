@@ -13,6 +13,8 @@ import {
     Row,
 } from 'react-bootstrap';
 
+const BASE_URL = 'http://ec2-35-170-200-195.compute-1.amazonaws.com:8080';
+
 export function LoginView({ onLoggedIn }) {
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -26,17 +28,14 @@ export function LoginView({ onLoggedIn }) {
             secret: password,
         };
 
-        fetch(
-            `https://dry-chamber-05388.herokuapp.com/login?Username=${username}&Password=${password}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+        fetch(`${BASE_URL}/login?Username=${username}&Password=${password}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
 
-                body: JSON.stringify(data),
-            }
-        )
+            body: JSON.stringify(data),
+        })
             .then((response) => response.json())
             .then((data) => {
                 console.log('Login response: ', data);

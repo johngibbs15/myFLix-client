@@ -12,6 +12,8 @@ import {
 import { Link } from 'react-router-dom';
 import './profile-view.scss';
 
+const BASE_URL = 'http://ec2-35-170-200-195.compute-1.amazonaws.com:8080';
+
 export const ProfileView = ({ user, token }) => {
     console.log(user.Username);
 
@@ -23,15 +25,12 @@ export const ProfileView = ({ user, token }) => {
     const updateUser = (e) => {
         e.preventDefault();
         axios
-            .put(
-                `https://dry-chamber-05388.herokuapp.com/users/${user.Username}`,
-                {
-                    Username: username,
-                    Password: password,
-                    Email: email,
-                    Birthday: birthday,
-                }
-            )
+            .put(`${BASE_URL}/users/${user.Username}`, {
+                Username: username,
+                Password: password,
+                Email: email,
+                Birthday: birthday,
+            })
             .then((response) => {
                 console.log(response.status);
                 alert('Update Successful');
@@ -45,9 +44,7 @@ export const ProfileView = ({ user, token }) => {
     const deleteUser = (e) => {
         e.preventDefault();
         axios
-            .delete(
-                `https://enigmatic-hamlet-36885.herokuapp.com/users/${user.Username}`
-            )
+            .delete(`${BASE_URL}/users/${user.Username}`)
             .then((response) => {
                 console.log(response.status);
                 alert('Profile has been deleted!');

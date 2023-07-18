@@ -8,10 +8,17 @@ import { NavigationBar } from '../navigation-bar/navigation-bar';
 import { ProfileView } from '../profile-view/profile-view';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from 'react-router-dom';
 import axios from 'axios';
 import { FavoriteMovies } from '../profile-view/favorite-movies';
 import { Container } from 'react-bootstrap';
+
+const BASE_URL = 'http://ec2-35-170-200-195.compute-1.amazonaws.com:8080/';
 
 export const MainView = () => {
     const [movies, setMovies] = useState([]);
@@ -21,9 +28,8 @@ export const MainView = () => {
     const [token, setToken] = useState(storedToken ? storedToken : null);
 
     // Pass bearer token into each URL header
-
     const getMovies = () => {
-        fetch('https://dry-chamber-05388.herokuapp.com/movies', {
+        fetch(`${BASE_URL}/movies`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => response.json())
@@ -35,13 +41,10 @@ export const MainView = () => {
     const addMovie = (movieId) => {
         if (!token) return;
 
-        fetch(
-            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`,
-            {
-                method: 'POST',
-                headers: { Authorization: `Bearer ${token}` },
-            }
-        )
+        fetch(`${BASE_URL}/users/${user.Username}/movies/${movieId}`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => {
                 alert('Movie has been added to favorites');
                 return response.json(), console.log(response);
@@ -54,13 +57,10 @@ export const MainView = () => {
     const deleteMovie = (movieId) => {
         if (!token) return;
 
-        fetch(
-            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}/movies/${movieId}`,
-            {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}` },
-            }
-        )
+        fetch(`${BASE_URL}/users/${user.Username}/movies/${movieId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => {
                 alert('Movie has been deleted');
                 return response.json(), console.log(response);

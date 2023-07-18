@@ -3,19 +3,18 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './profile-view.scss';
 
+const BASE_URL = 'http://ec2-35-170-200-195.compute-1.amazonaws.com:8080';
+
 export const FavoriteMovies = ({ movies, user, deleteMovie }) => {
     const storedToken = localStorage.getItem('token');
     const [token] = useState(storedToken ? storedToken : null);
     const [favoriteMovies, setFavoriteMovies] = useState([]);
 
     const getUser = (token) => {
-        fetch(
-            `https://dry-chamber-05388.herokuapp.com/users/${user.Username}`,
-            {
-                method: 'GET',
-                headers: { Authorization: `Bearer ${token}` },
-            }
-        )
+        fetch(`${BASE_URL}/users/${user.Username}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then((response) => response.json())
             .then((response) => {
                 console.log(response);

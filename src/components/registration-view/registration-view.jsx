@@ -11,6 +11,8 @@ import {
 } from 'react-bootstrap';
 import './registration-view.scss';
 
+const BASE_URL = 'http://ec2-35-170-200-195.compute-1.amazonaws.com:8080';
+
 export function RegistrationView(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -26,7 +28,7 @@ export function RegistrationView(props) {
     const createUser = (e) => {
         e.preventDefault();
         axios
-            .post(`https://dry-chamber-05388.herokuapp.com/users`, {
+            .post(`${BASE_URL}/users`, {
                 Username: username,
                 Password: password,
                 Email: email,
